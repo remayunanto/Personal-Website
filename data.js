@@ -32,10 +32,10 @@ const PORTFOLIO_DATA = {
   // --- AUM MILESTONES ---
   // reached: true = full bar + checkmark, false = empty bar
   milestones: [
-    { label: "Rp 50jt",  reached: true  },
-    { label: "Rp 100jt",  reached: false },
+    { label: "Rp 30jt",  reached: true  },
+    { label: "Rp 50jt",  reached: false },
+    { label: "Rp 100jt", reached: false },
     { label: "Rp 500jt", reached: false },
-    { label: "Rp 1000jt", reached: false },
   ],
 
   // --- HOLDINGS ---
