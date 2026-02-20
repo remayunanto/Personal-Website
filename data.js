@@ -25,17 +25,17 @@
 const PORTFOLIO_DATA = {
 
   // --- SITE IDENTITY ---
-  siteName: "Portofolio",
-  tagline: "Long-term value, documented with discipline.",
-  description: "A transparent record of investment theses, research notes, and portfolio updates. Positions are held with conviction.",
+  siteName: "Project: Aegis",
+  tagline: "Fine-tuning the strategy.",
+  description: "Personal investment strategy tracker.",
 
   // --- AUM MILESTONES ---
   // reached: true = full bar + checkmark, false = empty bar
   milestones: [
-    { label: "Rp 30jt",  reached: true  },
-    { label: "Rp 50jt",  reached: false },
-    { label: "Rp 100jt", reached: false },
+    { label: "Rp 50jt",  reached: true  },
+    { label: "Rp 100jt",  reached: false },
     { label: "Rp 500jt", reached: false },
+    { label: "Rp 1000jt", reached: false },
   ],
 
   // --- HOLDINGS ---
