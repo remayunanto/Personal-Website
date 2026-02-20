@@ -1,0 +1,20 @@
+body {
+    font-family: Arial, sans-serif;
+    background: #0f172a;
+    color: white;
+    text-align: center;
+}
+
+header {
+    padding: 40px;
+}
+
+.aum h1 {
+    font-size: 3rem;
+    color: #4ade80;
+}
+
+.milestones li {
+    list-style: none;
+    margin: 5px;
+}
