@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My Investment Portfolio</title>
+  <style>
+    body {
+      font-family: Arial;
+      margin: 40px;
+      background-color: #f5f5f5;
+    }
+
+    h1, h2 {
+      color: #222;
+    }
+
+    .card {
+      background: white;
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .milestone {
+      font-size: 22px;
+      font-weight: bold;
+      color: green;
+    }
+  </style>
+</head>
+
+<body>
+
+<h1>📈 My Investment Portfolio</h1>
+<p>Tracking thesis, research, and AUM growth.</p>
+
+<div class="card">
+  <h2>Current AUM</h2>
+  <p class="milestone" id="aumDisplay">Loading...</p>
+</div>
+
+<div class="card">
+  <h2>Portfolio Holdings</h2>
+  <ul id="portfolioList"></ul>
+</div>
+
+<div class="card">
+  <h2>Latest Thesis</h2>
+  <p id="latestThesis"></p>
+</div>
+
+<script>
+  // ===== EDIT THIS PART ONLY =====
+  const data = {
+    aum: 250000000, // change later
+
+    portfolio: [
+      { name: "BBCA", allocation: "35%" },
+      { name: "ASII", allocation: "25%" },
+      { name: "TLKM", allocation: "20%" }
+    ],
+
+    latestThesis: "Banking sector remains resilient with strong CASA ratio and ROE expansion potential."
+  };
+  // ===============================
+
+  // Format AUM into currency
+  function formatRupiah(number) {
+    return "IDR " + number.toLocaleString("id-ID");
+  }
+
+  document.getElementById("aumDisplay").innerText = formatRupiah(data.aum);
+
+  const list = document.getElementById("portfolioList");
+  data.portfolio.forEach(stock => {
+    const li = document.createElement("li");
+    li.textContent = stock.name + " — " + stock.allocation;
+    list.appendChild(li);
+  });
+
+  document.getElementById("latestThesis").innerText = data.latestThesis;
+
+</script>
+
+</body>
+</html>
