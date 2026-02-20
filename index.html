@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Portfolio — Investment Research</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg: #faf9f7;
+      --bg2: #f2f0ec;
+      --surface: #ffffff;
+      --border: #e0ddd8;
+      --border-strong: #c8c4bc;
+      --gold: #8a6820;
+      --gold-light: #b8901a;
+      --gold-bg: #fdf5e6;
+      --text: #1a1916;
+      --text-mid: #3a3830;
+      --text-muted: #7a7568;
+      --text-dim: #a8a298;
+      --green: #2a7a50;
+      --green-bg: #eef8f2;
+      --red: #c04040;
+      --red-bg: #fdf0f0;
+      --tag-thesis-bg: #fdf5e6; --tag-thesis-text: #8a6820; --tag-thesis-border: #e8c87a;
+      --tag-update-bg: #eef4fb; --tag-update-text: #2a5a8a; --tag-update-border: #96bce8;
+      --tag-research-bg: #f4eefb; --tag-research-text: #5a2a8a; --tag-research-border: #c096e8;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      line-height: 1.6;
+    }
+
+    /* HEADER */
+    header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 0 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 60px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.05rem;
+      letter-spacing: 0.04em;
+      color: var(--gold);
+    }
+
+    nav a {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.68rem;
+      font-weight: 400;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      text-decoration: none;
+      margin-left: 28px;
+      transition: color 0.2s;
+    }
+    nav a:hover { color: var(--text); }
+    nav a.active { color: var(--gold); }
+
+    /* HERO */
+    .hero {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 64px 48px 52px;
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 48px;
+      align-items: start;
+    }
+
+    .hero-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 14px;
+    }
+
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      font-weight: 400;
+      line-height: 1.2;
+      color: var(--text);
+    }
+
+    .hero h1 em {
+      font-style: italic;
+      color: var(--gold-light);
+    }
+
+    .hero-desc {
+      color: var(--text-muted);
+      font-size: 0.92rem;
+      max-width: 400px;
+      margin-top: 18px;
+      line-height: 1.7;
+    }
+
+    /* AUM Panel */
+    .aum-panel {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      padding: 28px;
+    }
+
+    .aum-panel-title {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-bottom: 20px;
+    }
+
+    .milestone {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .milestone-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.68rem;
+      color: var(--text-muted);
+      min-width: 72px;
+    }
+    .milestone-label.reached { color: var(--gold); font-weight: 500; }
+
+    .milestone-bar-wrap {
+      flex: 1;
+      height: 3px;
+      background: var(--border);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .milestone-bar {
+      height: 100%;
+      background: var(--gold-light);
+      border-radius: 2px;
+    }
+
+    .milestone-check {
+      font-size: 0.68rem;
+      color: var(--gold);
+      min-width: 14px;
+      text-align: center;
+    }
+
+    .aum-current {
+      margin-top: 20px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+    }
+
+    .aum-current-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.58rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+    }
+
+    .aum-current-value {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.7rem;
+      color: var(--text);
+      margin-top: 4px;
+    }
+
+    /* STATS */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      background: var(--bg2);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .stat {
+      padding: 24px 48px;
+      border-right: 1px solid var(--border);
+    }
+    .stat:last-child { border-right: none; }
+
+    .stat-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.58rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-bottom: 6px;
+    }
+
+    .stat-value {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      color: var(--text);
+    }
+    .stat-value.up { color: var(--green); }
+    .stat-value.down { color: var(--red); }
+
+    .stat-sub {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.6rem;
+      color: var(--text-dim);
+      margin-top: 3px;
+    }
+
+    /* MAIN */
+    main {
+      display: grid;
+      grid-template-columns: 1fr 320px;
+    }
+
+    /* FEED */
+    .feed { border-right: 1px solid var(--border); }
+
+    .feed-header {
+      padding: 20px 48px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--surface);
+    }
+
+    .feed-header h2 {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .filter-tabs { display: flex; gap: 4px; }
+
+    .filter-tab {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      padding: 5px 11px;
+      border: 1px solid transparent;
+      cursor: pointer;
+      background: none;
+      transition: all 0.2s;
+    }
+    .filter-tab:hover { color: var(--text); border-color: var(--border); }
+    .filter-tab.active { color: var(--gold); border-color: var(--gold-light); background: var(--gold-bg); }
+
+    .post-card {
+      padding: 32px 48px;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface);
+      transition: background 0.15s;
+      text-decoration: none;
+      display: block;
+      color: inherit;
+      position: relative;
+    }
+    .post-card:hover { background: var(--bg); }
+
+    .post-card::after {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 3px;
+      background: transparent;
+      transition: background 0.2s;
+    }
+    .post-card:hover::after { background: var(--gold-light); }
+
+    .post-meta {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .post-tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.58rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border: 1px solid;
+    }
+    .post-tag.thesis   { color: var(--tag-thesis-text);   border-color: var(--tag-thesis-border);   background: var(--tag-thesis-bg); }
+    .post-tag.update   { color: var(--tag-update-text);   border-color: var(--tag-update-border);   background: var(--tag-update-bg); }
+    .post-tag.research { color: var(--tag-research-text); border-color: var(--tag-research-border); background: var(--tag-research-bg); }
+
+    .post-ticker {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      font-weight: 500;
+      color: var(--text-mid);
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      padding: 2px 8px;
+    }
+
+    .post-date {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.6rem;
+      color: var(--text-dim);
+      margin-left: auto;
+    }
+
+    .post-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.18rem;
+      font-weight: 400;
+      line-height: 1.4;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+
+    .post-excerpt {
+      font-size: 0.865rem;
+      color: var(--text-muted);
+      line-height: 1.65;
+    }
+
+    .post-read-more {
+      display: inline-block;
+      margin-top: 14px;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    /* SIDEBAR */
+    .sidebar { background: var(--surface); }
+
+    .sidebar-section-title {
+      padding: 18px 24px;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.58rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      border-bottom: 1px solid var(--border);
+      background: var(--bg2);
+    }
+
+    .holding-row {
+      padding: 14px 24px;
+      border-bottom: 1px solid var(--border);
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 2px;
+      cursor: default;
+      transition: background 0.15s;
+    }
+    .holding-row:hover { background: var(--bg); }
+
+    .holding-ticker {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: var(--text);
+    }
+
+    .holding-name {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+    }
+
+    .holding-weight {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.68rem;
+      color: var(--text-dim);
+      text-align: right;
+    }
+
+    .holding-pnl {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      text-align: right;
+      font-weight: 500;
+    }
+    .holding-pnl.up   { color: var(--green); }
+    .holding-pnl.down { color: var(--red);   }
+
+    .holdings-note {
+      padding: 16px 24px;
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      line-height: 1.5;
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 20px 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--surface);
+    }
+
+    footer p {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.58rem;
+      letter-spacing: 0.08em;
+      color: var(--text-dim);
+    }
+
+    /* EMPTY STATE */
+    .empty-state {
+      padding: 56px 48px;
+      text-align: center;
+      color: var(--text-dim);
+      font-family: 'DM Mono', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      background: var(--surface);
+    }
+
+    @media (max-width: 900px) {
+      header { padding: 0 20px; }
+      .hero { grid-template-columns: 1fr; padding: 40px 20px; }
+      .stats-row { grid-template-columns: 1fr 1fr; }
+      .stat { padding: 18px 20px; }
+      main { grid-template-columns: 1fr; }
+      .feed { border-right: none; }
+      .feed-header { padding: 16px 20px; }
+      .post-card { padding: 24px 20px; }
+      footer { padding: 20px; flex-direction: column; gap: 6px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo" id="site-name">Portofolio</div>
+  <nav>
+    <a href="index.html" class="active">Research</a>
+    <a href="holdings.html">Holdings</a>
+  </nav>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div>
+    <div class="hero-label">Investment Portfolio</div>
+    <h1 id="hero-tagline">Long-term value,<br><em>documented</em> with discipline.</h1>
+    <p class="hero-desc" id="hero-desc"></p>
+  </div>
+  <div class="aum-panel">
+    <div class="aum-panel-title">AUM Milestones</div>
+    <div id="milestones-list"></div>
+    <div class="aum-current">
+      <div class="aum-current-label">Current AUM</div>
+      <div class="aum-current-value" id="aum-display">—</div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-row">
+  <div class="stat">
+    <div class="stat-label">Portfolio Return</div>
+    <div class="stat-value up" id="stat-return">—</div>
+    <div class="stat-sub">Since inception</div>
+  </div>
+  <div class="stat">
+    <div class="stat-label">Holdings</div>
+    <div class="stat-value" id="stat-holdings">—</div>
+    <div class="stat-sub">Active positions</div>
+  </div>
+  <div class="stat">
+    <div class="stat-label">Cash</div>
+    <div class="stat-value" id="stat-cash">—</div>
+    <div class="stat-sub">Last known prices</div>
+  </div>
+  <div class="stat">
+    <div class="stat-label">Posts</div>
+    <div class="stat-value" id="stat-posts">—</div>
+    <div class="stat-sub">Research notes</div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<main>
+  <section class="feed">
+    <div class="feed-header">
+      <h2>Research Feed</h2>
+      <div class="filter-tabs">
+        <button class="filter-tab active" onclick="filterPosts('all', this)">All</button>
+        <button class="filter-tab" onclick="filterPosts('thesis', this)">Thesis</button>
+        <button class="filter-tab" onclick="filterPosts('update', this)">Update</button>
+        <button class="filter-tab" onclick="filterPosts('research', this)">Research</button>
+      </div>
+    </div>
+    <div id="posts-container"></div>
+  </section>
+
+  <aside class="sidebar">
+    <div class="sidebar-section-title">Top Holdings</div>
+    <div id="holdings-list"></div>
+    <div class="holdings-note">
+      See full portfolio breakdown on the <a href="holdings.html" style="color:var(--gold);text-decoration:none">Holdings</a> page.
+    </div>
+  </aside>
+</main>
+
+<footer>
+  <p id="footer-site-name">Portofolio</p>
+  <p>Not financial advice — personal record only</p>
+</footer>
+
+<script src="data.js"></script>
+<script>
+  let currentFilter = 'all';
+
+  function fmtDate(d) {
+    return new Date(d).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+  }
+
+  const LOTS = 100;
+  const fmtPct = n => (n >= 0 ? '+' : '') + n.toFixed(2) + '%';
+  const fmtRp  = n => 'Rp\u00a0' + Math.round(n).toLocaleString('id-ID');
+
+  function render() {
+    const D = PORTFOLIO_DATA;
+
+    document.title = D.siteName + ' — Investment Research';
+    document.getElementById('site-name').textContent        = D.siteName;
+    document.getElementById('footer-site-name').textContent = D.siteName;
+    document.getElementById('hero-desc').textContent        = D.description;
+    document.getElementById('stat-holdings').textContent    = D.holdings.length;
+    document.getElementById('stat-posts').textContent       = D.posts.length;
+
+    // Milestones
+    document.getElementById('milestones-list').innerHTML = D.milestones.map(m => `
+      <div class="milestone">
+        <span class="milestone-label ${m.reached ? 'reached' : ''}">${m.label}</span>
+        <div class="milestone-bar-wrap">
+          <div class="milestone-bar" style="width:${m.reached ? 100 : 0}%"></div>
+        </div>
+        <span class="milestone-check">${m.reached ? '✓' : ''}</span>
+      </div>
+    `).join('');
+
+    renderPosts();
+
+    // Compute totals from currentPrice
+    let totalInvested = 0, totalMktVal = 0;
+    D.holdings.forEach(h => {
+      totalInvested += h.lot * LOTS * h.avgPrice;
+      totalMktVal   += h.lot * LOTS * h.currentPrice;
+    });
+
+    const totalPct = totalInvested > 0 ? (totalMktVal / totalInvested - 1) * 100 : 0;
+    const dir = totalPct >= 0 ? 'up' : 'down';
+
+    document.getElementById('aum-display').textContent = fmtRp(totalMktVal);
+    const retEl = document.getElementById('stat-return');
+    retEl.textContent = fmtPct(totalPct);
+    retEl.className   = 'stat-value ' + dir;
+    document.getElementById('stat-cash').textContent = '—';
+
+    // Sidebar — top 6 holdings by market value
+    const sorted = [...D.holdings].sort((a, b) =>
+      (b.lot * b.currentPrice) - (a.lot * a.currentPrice)
+    );
+    document.getElementById('holdings-list').innerHTML = sorted.slice(0, 6).map(h => {
+      const mktVal   = h.lot * LOTS * h.currentPrice;
+      const invested = h.lot * LOTS * h.avgPrice;
+      const weight   = totalMktVal > 0 ? (mktVal / totalMktVal * 100).toFixed(1) : '—';
+      const pct      = (mktVal / invested - 1) * 100;
+      const pdir     = pct >= 0 ? 'up' : 'down';
+      return `
+        <div class="holding-row">
+          <div class="holding-ticker">${h.ticker}</div>
+          <div class="holding-weight">${weight}%</div>
+          <div class="holding-name">${h.name}</div>
+          <div class="holding-pnl ${pdir}">${fmtPct(pct)}</div>
+        </div>`;
+    }).join('');
+  }
+
+  function renderPosts() {
+    const posts = currentFilter === 'all'
+      ? PORTFOLIO_DATA.posts
+      : PORTFOLIO_DATA.posts.filter(p => p.type === currentFilter);
+
+    const container = document.getElementById('posts-container');
+
+    if (!posts.length) {
+      container.innerHTML = `<div class="empty-state">No posts in this category yet.</div>`;
+      return;
+    }
+
+    container.innerHTML = [...posts].reverse().map(p => `
+      <a class="post-card" href="${p.file}">
+        <div class="post-meta">
+          <span class="post-tag ${p.type}">${p.type.toUpperCase()}</span>
+          <span class="post-ticker">${p.ticker}</span>
+          <span class="post-date">${fmtDate(p.date)}</span>
+        </div>
+        <h3 class="post-title">${p.title}</h3>
+        <p class="post-excerpt">${p.excerpt}</p>
+        <span class="post-read-more">Read analysis →</span>
+      </a>
+    `).join('');
+  }
+
+  function filterPosts(type, el) {
+    currentFilter = type;
+    document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+    el.classList.add('active');
+    renderPosts();
+  }
+
+  render();
+</script>
+</body>
+</html>
