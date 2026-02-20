@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Post Title — Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg: #faf9f7; --bg2: #f2f0ec; --surface: #ffffff;
+      --border: #e0ddd8; --gold: #8a6820; --gold-light: #b8901a; --gold-bg: #fdf5e6;
+      --text: #1a1916; --text-mid: #3a3830; --text-muted: #7a7568; --text-dim: #a8a298;
+      --green: #2a7a50; --red: #c04040;
+      --tag-thesis-bg: #fdf5e6; --tag-thesis-text: #8a6820; --tag-thesis-border: #e8c87a;
+      --tag-update-bg: #eef4fb; --tag-update-text: #2a5a8a; --tag-update-border: #96bce8;
+      --tag-research-bg: #f4eefb; --tag-research-text: #5a2a8a; --tag-research-border: #c096e8;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-weight: 300; line-height: 1.6; }
+
+    header {
+      background: var(--surface); border-bottom: 1px solid var(--border);
+      padding: 0 48px; display: flex; align-items: center; justify-content: space-between;
+      height: 60px; position: sticky; top: 0; z-index: 100;
+    }
+    .logo { font-family: 'Playfair Display', serif; font-size: 1.05rem; letter-spacing: 0.04em; color: var(--gold); text-decoration: none; }
+    nav a {
+      font-family: 'DM Mono', monospace; font-size: 0.68rem; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--text-muted); text-decoration: none; margin-left: 28px; transition: color 0.2s;
+    }
+    nav a:hover { color: var(--text); }
+
+    .article-wrap {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 56px 40px 80px;
+    }
+
+    .back-link {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      text-decoration: none;
+      display: inline-block;
+      margin-bottom: 36px;
+      transition: color 0.2s;
+    }
+    .back-link:hover { color: var(--gold); }
+
+    .article-meta {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .post-tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.58rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border: 1px solid;
+    }
+    .post-tag.thesis   { color: var(--tag-thesis-text);   border-color: var(--tag-thesis-border);   background: var(--tag-thesis-bg); }
+    .post-tag.update   { color: var(--tag-update-text);   border-color: var(--tag-update-border);   background: var(--tag-update-bg); }
+    .post-tag.research { color: var(--tag-research-text); border-color: var(--tag-research-border); background: var(--tag-research-bg); }
+
+    .post-ticker {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      font-weight: 500;
+      color: var(--text-mid);
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      padding: 3px 10px;
+    }
+
+    .article-date {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.62rem;
+      color: var(--text-dim);
+      margin-left: auto;
+    }
+
+    .article-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.6rem, 3vw, 2.4rem);
+      font-weight: 400;
+      line-height: 1.25;
+      color: var(--text);
+      margin-bottom: 12px;
+    }
+
+    .article-excerpt {
+      font-size: 1rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin-bottom: 36px;
+      padding-bottom: 36px;
+      border-bottom: 1px solid var(--border);
+      font-style: italic;
+    }
+
+    /* ARTICLE BODY TYPOGRAPHY */
+    .article-body { font-size: 0.96rem; color: var(--text-mid); line-height: 1.85; }
+
+    .article-body h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.35rem;
+      font-weight: 400;
+      color: var(--text);
+      margin: 40px 0 14px;
+      padding-top: 8px;
+      border-top: 1px solid var(--border);
+    }
+
+    .article-body h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      font-weight: 400;
+      color: var(--text);
+      margin: 28px 0 10px;
+    }
+
+    .article-body p { margin-bottom: 18px; }
+
+    .article-body ul, .article-body ol {
+      padding-left: 20px;
+      margin-bottom: 18px;
+    }
+    .article-body li { margin-bottom: 6px; }
+
+    .article-body strong { font-weight: 500; color: var(--text); }
+
+    .article-body blockquote {
+      border-left: 3px solid var(--gold-light);
+      padding: 12px 20px;
+      background: var(--gold-bg);
+      margin: 24px 0;
+      color: var(--text-muted);
+      font-style: italic;
+    }
+
+    /* Key metrics box */
+    .key-metrics {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      padding: 20px 24px;
+      margin: 28px 0;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 20px;
+    }
+
+    .metric { }
+    .metric-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.58rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-bottom: 4px;
+    }
+    .metric-value {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem;
+      color: var(--text);
+    }
+    .metric-value.up   { color: var(--green); }
+    .metric-value.down { color: var(--red);   }
+
+    footer {
+      border-top: 1px solid var(--border); padding: 20px 48px;
+      display: flex; justify-content: space-between; align-items: center;
+      background: var(--surface);
+    }
+    footer p { font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.08em; color: var(--text-dim); }
+
+    @media (max-width: 700px) {
+      header { padding: 0 20px; }
+      .article-wrap { padding: 36px 20px 60px; }
+      footer { padding: 20px; flex-direction: column; gap: 6px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <a href="../index.html" class="logo">Portofolio</a>
+  <nav>
+    <a href="../index.html">Research</a>
+    <a href="../holdings.html">Holdings</a>
+  </nav>
+</header>
+
+<div class="article-wrap">
+  <a href="../index.html" class="back-link">← Back to Research Feed</a>
+
+  <div class="article-meta">
+    <!-- EDIT: change the class to "thesis", "update", or "research" -->
+    <span class="post-tag thesis">Thesis</span>
+    <!-- EDIT: put your stock ticker here -->
+    <span class="post-ticker">BBCA</span>
+    <!-- EDIT: change the date -->
+    <span class="article-date">10 November 2025</span>
+  </div>
+
+  <!-- EDIT: your post title -->
+  <h1 class="article-title">BBCA: The Compounding Machine at the Heart of Indonesian Banking</h1>
+
+  <!-- EDIT: one paragraph summary -->
+  <p class="article-excerpt">
+    Why BCA's unmatched CASA franchise and deposit moat justify a long-term position at current valuations.
+  </p>
+
+  <!-- OPTIONAL: Key Metrics Box. Delete this block if you don't need it -->
+  <div class="key-metrics">
+    <div class="metric">
+      <div class="metric-label">Entry Price</div>
+      <div class="metric-value">Rp 9.200</div>
+    </div>
+    <div class="metric">
+      <div class="metric-label">Target Price</div>
+      <div class="metric-value">Rp 13.500</div>
+    </div>
+    <div class="metric">
+      <div class="metric-label">Upside</div>
+      <div class="metric-value up">+46.7%</div>
+    </div>
+    <div class="metric">
+      <div class="metric-label">Time Horizon</div>
+      <div class="metric-value">3–5 yr</div>
+    </div>
+  </div>
+
+  <!-- YOUR ARTICLE CONTENT GOES HERE -->
+  <div class="article-body">
+
+    <h2>Investment Thesis</h2>
+    <p>
+      Bank Central Asia represents one of the highest-quality financial franchises in Southeast Asia.
+      The bank's funding cost advantage — built on decades of trust and a sticky retail customer base —
+      creates an economic moat that is extremely difficult to replicate.
+    </p>
+
+    <h2>The CASA Advantage</h2>
+    <p>
+      With a CASA (Current Account Savings Account) ratio consistently above 75%, BCA funds its loan
+      book at far lower cost than competitors. This structural advantage compounds over time:
+    </p>
+    <ul>
+      <li>Cheaper funding leads to better net interest margins</li>
+      <li>Better margins generate more capital to reinvest</li>
+      <li>More capital strengthens the brand and distribution</li>
+    </ul>
+
+    <blockquote>
+      "BCA is not just a bank — it is a payment infrastructure company that also does banking."
+    </blockquote>
+
+    <h2>Valuation</h2>
+    <p>
+      At current prices, BCA trades at roughly 4.2x book value. This premium is justified by its
+      consistently high return on equity (above 20%) and superior asset quality. We believe the
+      stock offers a reasonable margin of safety at current levels with a 3–5 year horizon.
+    </p>
+
+    <h2>Key Risks</h2>
+    <p>
+      Digital banking competition from Seabank and Blu may gradually erode CASA share. However,
+      BCA's ecosystem lock-in (payroll, business accounts, KlikBCA) creates switching costs that
+      we believe will protect the core franchise for at least the next decade.
+    </p>
+
+    <h2>Conclusion</h2>
+    <p>
+      We maintain a <strong>long position</strong> in BBCA as a core holding. The compounding
+      quality of the business justifies a patient, long-term approach. We will revisit our thesis
+      if the CASA ratio falls below 70% for two consecutive quarters.
+    </p>
+
+  </div>
+</div>
+
+<footer>
+  <p>Portofolio</p>
+  <p>Not financial advice — personal record only</p>
+</footer>
+
+</body>
+</html>
