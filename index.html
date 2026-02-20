@@ -1,86 +1,1088 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>My Investment Portfolio</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Portfolio — Investment Research</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
   <style>
+    :root {
+      --bg: #0a0a08;
+      --surface: #111110;
+      --surface2: #1a1a18;
+      --border: #2a2a26;
+      --gold: #c9a84c;
+      --gold-dim: #7a5f28;
+      --text: #e8e6df;
+      --text-muted: #7a7870;
+      --text-dim: #4a4840;
+      --green: #4caf82;
+      --red: #e05a5a;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
     body {
-      font-family: Arial;
-      margin: 40px;
-      background-color: #f5f5f5;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      line-height: 1.6;
+      min-height: 100vh;
     }
 
-    h1, h2 {
-      color: #222;
+    /* Grain overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.4;
     }
 
-    .card {
-      background: white;
-      padding: 20px;
-      margin-bottom: 20px;
-      border-radius: 10px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    /* HEADER */
+    header {
+      border-bottom: 1px solid var(--border);
+      padding: 0 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+      position: sticky;
+      top: 0;
+      background: rgba(10,10,8,0.92);
+      backdrop-filter: blur(12px);
+      z-index: 100;
+    }
+
+    .logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      letter-spacing: 0.05em;
+      color: var(--gold);
+    }
+
+    nav a {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      font-weight: 400;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      text-decoration: none;
+      margin-left: 32px;
+      transition: color 0.2s;
+    }
+    nav a:hover { color: var(--text); }
+    nav a.active { color: var(--gold); }
+
+    /* HERO */
+    .hero {
+      padding: 80px 48px 60px;
+      border-bottom: 1px solid var(--border);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: end;
+    }
+
+    .hero-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold-dim);
+      margin-bottom: 16px;
+    }
+
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.2rem, 4vw, 3.4rem);
+      font-weight: 400;
+      line-height: 1.18;
+      color: var(--text);
+    }
+
+    .hero h1 em {
+      font-style: italic;
+      color: var(--gold);
+    }
+
+    .hero-desc {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      max-width: 380px;
+      margin-top: 20px;
+    }
+
+    /* AUM Milestones */
+    .aum-panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 32px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .aum-panel::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--gold), transparent);
+    }
+
+    .aum-title {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold-dim);
+      margin-bottom: 24px;
     }
 
     .milestone {
-      font-size: 22px;
-      font-weight: bold;
-      color: green;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 14px;
+    }
+
+    .milestone-bar-wrap {
+      flex: 1;
+      height: 3px;
+      background: var(--border);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .milestone-bar {
+      height: 100%;
+      background: var(--gold);
+      border-radius: 2px;
+      transition: width 1.2s ease;
+    }
+
+    .milestone-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      min-width: 80px;
+    }
+
+    .milestone-label.reached {
+      color: var(--gold);
+    }
+
+    .milestone-check {
+      font-size: 0.7rem;
+      min-width: 16px;
+      color: var(--gold);
+    }
+
+    .aum-current {
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+    }
+
+    .aum-current-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+    }
+
+    .aum-current-value {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      color: var(--text);
+      margin-top: 4px;
+    }
+
+    /* STATS ROW */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .stat {
+      padding: 28px 48px;
+      border-right: 1px solid var(--border);
+    }
+
+    .stat:last-child { border-right: none; }
+
+    .stat-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-bottom: 8px;
+    }
+
+    .stat-value {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem;
+      color: var(--text);
+    }
+
+    .stat-value.up { color: var(--green); }
+    .stat-value.down { color: var(--red); }
+
+    .stat-sub {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    /* MAIN LAYOUT */
+    main {
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      min-height: calc(100vh - 200px);
+    }
+
+    /* POSTS / RESEARCH FEED */
+    .feed {
+      border-right: 1px solid var(--border);
+    }
+
+    .feed-header {
+      padding: 28px 48px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .feed-header h2 {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .filter-tabs {
+      display: flex;
+      gap: 4px;
+    }
+
+    .filter-tab {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      padding: 5px 12px;
+      border: 1px solid transparent;
+      cursor: pointer;
+      background: none;
+      transition: all 0.2s;
+    }
+
+    .filter-tab:hover { color: var(--text); border-color: var(--border); }
+    .filter-tab.active { color: var(--gold); border-color: var(--gold-dim); background: rgba(201,168,76,0.06); }
+
+    .post-card {
+      padding: 36px 48px;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+      transition: background 0.2s;
+      position: relative;
+    }
+
+    .post-card:hover { background: var(--surface); }
+
+    .post-card::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 2px;
+      background: transparent;
+      transition: background 0.2s;
+    }
+
+    .post-card:hover::before { background: var(--gold); }
+
+    .post-meta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .post-tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border: 1px solid;
+    }
+
+    .post-tag.thesis { color: var(--gold); border-color: var(--gold-dim); background: rgba(201,168,76,0.08); }
+    .post-tag.update { color: #7ab4c9; border-color: #2a5a6a; background: rgba(122,180,201,0.08); }
+    .post-tag.research { color: #9d7ac9; border-color: #4a2a6a; background: rgba(157,122,201,0.08); }
+
+    .post-ticker {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      font-weight: 500;
+      color: var(--text);
+      background: var(--surface2);
+      padding: 3px 8px;
+    }
+
+    .post-date {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.62rem;
+      color: var(--text-dim);
+      margin-left: auto;
+    }
+
+    .post-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.25rem;
+      font-weight: 400;
+      line-height: 1.4;
+      color: var(--text);
+      margin-bottom: 10px;
+    }
+
+    .post-excerpt {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      line-height: 1.65;
+    }
+
+    .post-footer {
+      margin-top: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .post-read-more {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gold-dim);
+    }
+
+    /* SIDEBAR - HOLDINGS */
+    .sidebar {
+      padding: 0;
+    }
+
+    .sidebar-section {
+      border-bottom: 1px solid var(--border);
+    }
+
+    .sidebar-section-title {
+      padding: 20px 28px;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .holding-row {
+      padding: 16px 28px;
+      border-bottom: 1px solid rgba(42,42,38,0.5);
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 4px;
+      align-items: center;
+      transition: background 0.15s;
+      cursor: pointer;
+    }
+
+    .holding-row:hover { background: var(--surface); }
+
+    .holding-ticker {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--text);
+    }
+
+    .holding-name {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      grid-column: 1;
+    }
+
+    .holding-weight {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      text-align: right;
+    }
+
+    .holding-pnl {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      text-align: right;
+    }
+
+    .holding-pnl.up { color: var(--green); }
+    .holding-pnl.down { color: var(--red); }
+
+    /* Modal */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.85);
+      z-index: 200;
+      align-items: center;
+      justify-content: center;
+      padding: 40px;
+    }
+
+    .modal-overlay.open { display: flex; }
+
+    .modal {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      max-width: 720px;
+      width: 100%;
+      max-height: 80vh;
+      overflow-y: auto;
+      position: relative;
+    }
+
+    .modal::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--gold), transparent 60%);
+    }
+
+    .modal-inner { padding: 48px; }
+
+    .modal-close {
+      position: sticky;
+      top: 16px;
+      float: right;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      background: none;
+      border: 1px solid var(--border);
+      padding: 6px 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .modal-close:hover { color: var(--text); border-color: var(--text-muted); }
+
+    .modal-tag { margin-bottom: 20px; }
+    .modal-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      font-weight: 400;
+      line-height: 1.3;
+      margin-bottom: 8px;
+      color: var(--text);
+    }
+    .modal-date {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--text-dim);
+      margin-bottom: 32px;
+    }
+    .modal-body {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      line-height: 1.8;
+    }
+
+    .modal-body h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.05rem;
+      color: var(--text);
+      margin: 28px 0 10px;
+    }
+
+    /* ADMIN PANEL */
+    .admin-bar {
+      background: var(--surface2);
+      border-top: 1px solid var(--border);
+      padding: 16px 48px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .admin-bar-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gold-dim);
+    }
+
+    .admin-btn {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 8px 16px;
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .admin-btn:hover { border-color: var(--gold-dim); color: var(--gold); }
+    .admin-btn.primary { border-color: var(--gold-dim); color: var(--gold); background: rgba(201,168,76,0.06); }
+
+    /* ADD POST FORM */
+    .form-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.9);
+      z-index: 300;
+      align-items: center;
+      justify-content: center;
+      padding: 40px;
+    }
+    .form-overlay.open { display: flex; }
+
+    .form-panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      max-width: 680px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 40px;
+      position: relative;
+    }
+
+    .form-panel::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--gold), transparent);
+    }
+
+    .form-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      color: var(--text);
+      margin-bottom: 28px;
+    }
+
+    .form-group { margin-bottom: 20px; }
+
+    .form-label {
+      display: block;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .form-input, .form-select, .form-textarea {
+      width: 100%;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 10px 14px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.88rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .form-input:focus, .form-select:focus, .form-textarea:focus {
+      border-color: var(--gold-dim);
+    }
+
+    .form-textarea { min-height: 180px; resize: vertical; }
+
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+    .form-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: flex-end;
+      margin-top: 24px;
+    }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 24px 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    footer p {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.1em;
+      color: var(--text-dim);
+    }
+
+    @media (max-width: 900px) {
+      header { padding: 0 20px; }
+      .hero { grid-template-columns: 1fr; padding: 48px 20px; }
+      .stats-row { grid-template-columns: 1fr 1fr; }
+      .stat { padding: 20px; }
+      main { grid-template-columns: 1fr; }
+      .sidebar { border-top: 1px solid var(--border); }
+      .post-card { padding: 28px 20px; }
+      .feed-header { padding: 20px; }
+      .admin-bar { padding: 16px 20px; }
+      footer { padding: 20px; flex-direction: column; gap: 8px; }
     }
   </style>
 </head>
-
 <body>
 
-<h1>📈 My Investment Portfolio</h1>
-<p>Tracking thesis, research, and AUM growth.</p>
+<!-- HEADER -->
+<header>
+  <div class="logo">Portofolio</div>
+  <nav>
+    <a href="#" class="active" onclick="showSection('feed')">Research</a>
+    <a href="#" onclick="showSection('holdings')">Holdings</a>
+    <a href="#" onclick="showSection('about')">About</a>
+  </nav>
+</header>
 
-<div class="card">
-  <h2>Current AUM</h2>
-  <p class="milestone" id="aumDisplay">Loading...</p>
+<!-- HERO -->
+<section class="hero">
+  <div>
+    <div class="hero-label">Investment Portfolio</div>
+    <h1>Long-term value,<br><em>documented</em> with discipline.</h1>
+    <p class="hero-desc">A transparent record of investment theses, research notes, and portfolio updates. Positions are held with conviction.</p>
+  </div>
+  <div class="aum-panel" id="aum-panel">
+    <div class="aum-title">AUM Milestones</div>
+    <div id="milestones-list"></div>
+    <div class="aum-current">
+      <div class="aum-current-label">Current AUM</div>
+      <div class="aum-current-value" id="aum-display">—</div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-row">
+  <div class="stat">
+    <div class="stat-label">Portfolio Return</div>
+    <div class="stat-value up" id="stat-return">—</div>
+    <div class="stat-sub">Since inception</div>
+  </div>
+  <div class="stat">
+    <div class="stat-label">Holdings</div>
+    <div class="stat-value" id="stat-holdings">—</div>
+    <div class="stat-sub">Active positions</div>
+  </div>
+  <div class="stat">
+    <div class="stat-label">Cash</div>
+    <div class="stat-value" id="stat-cash">—</div>
+    <div class="stat-sub">Allocated</div>
+  </div>
+  <div class="stat">
+    <div class="stat-label">Posts</div>
+    <div class="stat-value" id="stat-posts">—</div>
+    <div class="stat-sub">Research notes</div>
+  </div>
 </div>
 
-<div class="card">
-  <h2>Portfolio Holdings</h2>
-  <ul id="portfolioList"></ul>
+<!-- MAIN -->
+<main>
+  <!-- FEED -->
+  <section class="feed">
+    <div class="feed-header">
+      <h2>Research Feed</h2>
+      <div class="filter-tabs">
+        <button class="filter-tab active" onclick="filterPosts('all', this)">All</button>
+        <button class="filter-tab" onclick="filterPosts('thesis', this)">Thesis</button>
+        <button class="filter-tab" onclick="filterPosts('update', this)">Update</button>
+        <button class="filter-tab" onclick="filterPosts('research', this)">Research</button>
+      </div>
+    </div>
+    <div id="posts-container"></div>
+  </section>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Portfolio Holdings</div>
+      <div id="holdings-list"></div>
+    </div>
+  </aside>
+</main>
+
+<!-- ADMIN BAR -->
+<div class="admin-bar">
+  <span class="admin-bar-label">⚙ Manage</span>
+  <button class="admin-btn primary" onclick="openPostForm()">+ New Post</button>
+  <button class="admin-btn" onclick="openHoldingForm()">+ Add Holding</button>
+  <button class="admin-btn" onclick="openSettingsForm()">Edit AUM / Stats</button>
 </div>
 
-<div class="card">
-  <h2>Latest Thesis</h2>
-  <p id="latestThesis"></p>
+<!-- FOOTER -->
+<footer>
+  <p>Investment research & portfolio tracking</p>
+  <p>Not financial advice — personal record only</p>
+</footer>
+
+<!-- POST MODAL -->
+<div class="modal-overlay" id="post-modal">
+  <div class="modal">
+    <div class="modal-inner">
+      <button class="modal-close" onclick="closeModal()">✕ Close</button>
+      <div class="modal-tag" id="modal-tag"></div>
+      <h2 class="modal-title" id="modal-title"></h2>
+      <div class="modal-date" id="modal-date"></div>
+      <div class="modal-body" id="modal-body"></div>
+    </div>
+  </div>
+</div>
+
+<!-- NEW POST FORM -->
+<div class="form-overlay" id="post-form-overlay">
+  <div class="form-panel">
+    <h3 class="form-title">New Research Post</h3>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Type</label>
+        <select class="form-select" id="new-type">
+          <option value="thesis">Thesis</option>
+          <option value="update">Update</option>
+          <option value="research">Research</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Ticker</label>
+        <input class="form-input" id="new-ticker" placeholder="e.g. BBCA" />
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Title</label>
+      <input class="form-input" id="new-title" placeholder="Post title..." />
+    </div>
+    <div class="form-group">
+      <label class="form-label">Excerpt (short summary)</label>
+      <input class="form-input" id="new-excerpt" placeholder="One-line summary..." />
+    </div>
+    <div class="form-group">
+      <label class="form-label">Full Content</label>
+      <textarea class="form-textarea" id="new-body" placeholder="Write your full analysis here..."></textarea>
+    </div>
+    <div class="form-actions">
+      <button class="admin-btn" onclick="closePostForm()">Cancel</button>
+      <button class="admin-btn primary" onclick="addPost()">Publish Post</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADD HOLDING FORM -->
+<div class="form-overlay" id="holding-form-overlay">
+  <div class="form-panel">
+    <h3 class="form-title">Add Holding</h3>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Ticker</label>
+        <input class="form-input" id="new-h-ticker" placeholder="e.g. BBCA" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Company Name</label>
+        <input class="form-input" id="new-h-name" placeholder="e.g. Bank Central Asia" />
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Portfolio Weight (%)</label>
+        <input class="form-input" id="new-h-weight" type="number" placeholder="e.g. 15" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Return (%)</label>
+        <input class="form-input" id="new-h-pnl" type="number" placeholder="e.g. 24.5" />
+      </div>
+    </div>
+    <div class="form-actions">
+      <button class="admin-btn" onclick="closeHoldingForm()">Cancel</button>
+      <button class="admin-btn primary" onclick="addHolding()">Add Holding</button>
+    </div>
+  </div>
+</div>
+
+<!-- SETTINGS FORM -->
+<div class="form-overlay" id="settings-form-overlay">
+  <div class="form-panel">
+    <h3 class="form-title">Portfolio Settings</h3>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Current AUM</label>
+        <input class="form-input" id="set-aum" placeholder="e.g. Rp 500.000.000" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Portfolio Return (%)</label>
+        <input class="form-input" id="set-return" placeholder="e.g. +34.2%" />
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Cash Allocation (%)</label>
+        <input class="form-input" id="set-cash" placeholder="e.g. 12%" />
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Milestones (one per line, format: Label|Amount|reached)</label>
+      <textarea class="form-textarea" id="set-milestones" style="min-height:120px" placeholder="Rp 100jt|100000000|true&#10;Rp 500jt|500000000|false&#10;Rp 1M|1000000000|false"></textarea>
+    </div>
+    <div class="form-actions">
+      <button class="admin-btn" onclick="closeSettingsForm()">Cancel</button>
+      <button class="admin-btn primary" onclick="saveSettings()">Save Settings</button>
+    </div>
+  </div>
 </div>
 
 <script>
-  // ===== EDIT THIS PART ONLY =====
-  const data = {
-    aum: 250000000, // change later
+// ===== DATA STORE (localStorage) =====
+const STORE = {
+  get: (k, def) => {
+    try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : def; } catch { return def; }
+  },
+  set: (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} }
+};
 
-    portfolio: [
-      { name: "BBCA", allocation: "35%" },
-      { name: "ASII", allocation: "25%" },
-      { name: "TLKM", allocation: "20%" }
-    ],
-
-    latestThesis: "Banking sector remains resilient with strong CASA ratio and ROE expansion potential."
-  };
-  // ===============================
-
-  // Format AUM into currency
-  function formatRupiah(number) {
-    return "IDR " + number.toLocaleString("id-ID");
+// Default data
+const DEFAULT_POSTS = [
+  {
+    id: 1, type: 'thesis', ticker: 'BBCA', date: '2025-11-10',
+    title: 'BBCA: The Compounding Machine at the Heart of Indonesian Banking',
+    excerpt: 'Why BCA\'s unmatched CASA franchise and deposit moat justify a long-term position at current valuations.',
+    body: `<h3>Investment Thesis</h3><p>Bank Central Asia represents one of the highest-quality financial franchises in Southeast Asia. The bank's funding cost advantage — built on decades of trust and a sticky retail customer base — creates an economic moat that is extremely difficult to replicate.</p><h3>The CASA Advantage</h3><p>With a CASA (Current Account Savings Account) ratio consistently above 75%, BCA funds its loan book at far lower cost than competitors. This structural advantage compounds over time: cheaper funding → better margins → more capital to grow → stronger brand.</p><h3>Risk Factors</h3><p>Digital banking competition from Seabank and Blu may gradually erode CASA share. However, BCA's ecosystem lock-in (payroll, business accounts, KlikBCA) creates switching costs that we believe will protect the core franchise for at least the next decade.</p>`
+  },
+  {
+    id: 2, type: 'update', ticker: 'TLKM', date: '2025-12-15',
+    title: 'TLKM Q3 2025 Update — Dividend Yield Provides Floor',
+    excerpt: 'Mixed operational results, but the 7.2% forward dividend yield makes the risk/reward compelling at current prices.',
+    body: `<h3>Q3 Results Summary</h3><p>Telkom Indonesia reported Q3 2025 results that were largely in-line with expectations. Revenue grew 3.2% YoY, driven by Telkomsel's mobile data segment. Enterprise solutions showed some softness.</p><h3>Our View</h3><p>The 7.2% forward dividend yield creates a meaningful floor for the stock. We are maintaining our position and may add opportunistically below Rp 3,000.</p>`
+  },
+  {
+    id: 3, type: 'research', ticker: 'GOTO', date: '2026-01-05',
+    title: 'GoTo: Path to Profitability — A Deep Dive',
+    excerpt: 'Examining whether GoTo\'s unit economics can sustain the journey to breakeven without further dilution.',
+    body: `<h3>The Core Question</h3><p>GoTo's story has been a classic high-growth tech narrative: prioritize scale, sacrifice profitability. The question for 2026 is whether the unit economics — particularly in GoPay and GoFood — have improved sufficiently to chart a realistic path to profitability.</p><h3>Our Analysis</h3><p>Take rates in the on-demand segment have improved from 14% to 19% over 18 months. Cash burn has declined meaningfully. However, competition from Grab and TikTok Shop remains fierce in the e-commerce segment.</p><h3>Conclusion</h3><p>We are monitoring, not yet positioned. The next two quarters of earnings will be decisive.</p>`
   }
+];
 
-  document.getElementById("aumDisplay").innerText = formatRupiah(data.aum);
+const DEFAULT_HOLDINGS = [
+  { ticker: 'BBCA', name: 'Bank Central Asia', weight: 28, pnl: 42.1 },
+  { ticker: 'TLKM', name: 'Telkom Indonesia', weight: 18, pnl: -8.3 },
+  { ticker: 'ASII', name: 'Astra International', weight: 15, pnl: 12.7 },
+  { ticker: 'UNVR', name: 'Unilever Indonesia', weight: 12, pnl: -15.2 },
+  { ticker: 'BMRI', name: 'Bank Mandiri', weight: 10, pnl: 28.9 },
+];
 
-  const list = document.getElementById("portfolioList");
-  data.portfolio.forEach(stock => {
-    const li = document.createElement("li");
-    li.textContent = stock.name + " — " + stock.allocation;
-    list.appendChild(li);
+const DEFAULT_SETTINGS = {
+  aum: 'Rp 450.000.000',
+  portfolioReturn: '+22.4%',
+  cash: '17%',
+  milestones: [
+    { label: 'Rp 100jt', amount: 100000000, reached: true },
+    { label: 'Rp 500jt', amount: 500000000, reached: false },
+    { label: 'Rp 1M', amount: 1000000000, reached: false },
+  ]
+};
+
+// Load data
+let posts = STORE.get('posts', DEFAULT_POSTS);
+let holdings = STORE.get('holdings', DEFAULT_HOLDINGS);
+let settings = STORE.get('settings', DEFAULT_SETTINGS);
+let currentFilter = 'all';
+
+// ===== RENDER FUNCTIONS =====
+
+function fmtDate(d) {
+  return new Date(d).toLocaleDateString('en-GB', { day:'numeric', month:'long', year:'numeric' });
+}
+
+function renderPosts() {
+  const container = document.getElementById('posts-container');
+  const filtered = currentFilter === 'all' ? posts : posts.filter(p => p.type === currentFilter);
+  if (!filtered.length) {
+    container.innerHTML = `<div style="padding:48px;text-align:center;color:var(--text-dim);font-family:'DM Mono',monospace;font-size:0.72rem;letter-spacing:0.1em">NO POSTS YET</div>`;
+    return;
+  }
+  container.innerHTML = filtered.slice().reverse().map(p => `
+    <div class="post-card" onclick="openPost(${p.id})">
+      <div class="post-meta">
+        <span class="post-tag ${p.type}">${p.type.toUpperCase()}</span>
+        <span class="post-ticker">${p.ticker}</span>
+        <span class="post-date">${fmtDate(p.date)}</span>
+      </div>
+      <h3 class="post-title">${p.title}</h3>
+      <p class="post-excerpt">${p.excerpt}</p>
+      <div class="post-footer">
+        <span class="post-read-more">Read analysis →</span>
+      </div>
+    </div>
+  `).join('');
+  document.getElementById('stat-posts').textContent = posts.length;
+}
+
+function renderHoldings() {
+  const list = document.getElementById('holdings-list');
+  list.innerHTML = holdings.map(h => `
+    <div class="holding-row">
+      <div class="holding-ticker">${h.ticker}</div>
+      <div class="holding-weight">${h.weight}%</div>
+      <div class="holding-name">${h.name}</div>
+      <div class="holding-pnl ${h.pnl >= 0 ? 'up' : 'down'}">${h.pnl >= 0 ? '+' : ''}${h.pnl}%</div>
+    </div>
+  `).join('');
+  document.getElementById('stat-holdings').textContent = holdings.length;
+}
+
+function renderSettings() {
+  document.getElementById('aum-display').textContent = settings.aum;
+  const ret = document.getElementById('stat-return');
+  ret.textContent = settings.portfolioReturn;
+  ret.className = 'stat-value ' + (settings.portfolioReturn.includes('-') ? 'down' : 'up');
+  document.getElementById('stat-cash').textContent = settings.cash;
+
+  const list = document.getElementById('milestones-list');
+  const currentAum = parseFloat((settings.aum || '0').replace(/[^0-9.]/g, '')) || 0;
+
+  list.innerHTML = settings.milestones.map(m => {
+    const prog = m.reached ? 100 : Math.min(100, Math.round((currentAum / m.amount) * 100));
+    return `
+      <div class="milestone">
+        <div class="milestone-label ${m.reached ? 'reached' : ''}">${m.label}</div>
+        <div class="milestone-bar-wrap"><div class="milestone-bar" style="width:${prog}%"></div></div>
+        <div class="milestone-check">${m.reached ? '✓' : ''}</div>
+      </div>
+    `;
+  }).join('');
+}
+
+function renderAll() {
+  renderPosts();
+  renderHoldings();
+  renderSettings();
+}
+
+// ===== MODALS =====
+
+function openPost(id) {
+  const p = posts.find(x => x.id === id);
+  if (!p) return;
+  document.getElementById('modal-tag').innerHTML = `<span class="post-tag ${p.type}">${p.type.toUpperCase()}</span> <span class="post-ticker" style="margin-left:8px">${p.ticker}</span>`;
+  document.getElementById('modal-title').textContent = p.title;
+  document.getElementById('modal-date').textContent = fmtDate(p.date);
+  document.getElementById('modal-body').innerHTML = p.body;
+  document.getElementById('post-modal').classList.add('open');
+}
+
+function closeModal() {
+  document.getElementById('post-modal').classList.remove('open');
+}
+
+// ===== FORMS =====
+
+function openPostForm() { document.getElementById('post-form-overlay').classList.add('open'); }
+function closePostForm() { document.getElementById('post-form-overlay').classList.remove('open'); }
+
+function addPost() {
+  const title = document.getElementById('new-title').value.trim();
+  const ticker = document.getElementById('new-ticker').value.trim().toUpperCase();
+  const type = document.getElementById('new-type').value;
+  const excerpt = document.getElementById('new-excerpt').value.trim();
+  const body = document.getElementById('new-body').value.trim().replace(/\n/g, '<br>');
+  if (!title || !ticker) return alert('Please fill in title and ticker.');
+  const id = Date.now();
+  const date = new Date().toISOString().split('T')[0];
+  posts.push({ id, type, ticker, date, title, excerpt, body: `<p>${body}</p>` });
+  STORE.set('posts', posts);
+  closePostForm();
+  ['new-title','new-ticker','new-excerpt','new-body'].forEach(i => document.getElementById(i).value = '');
+  renderAll();
+}
+
+function openHoldingForm() { document.getElementById('holding-form-overlay').classList.add('open'); }
+function closeHoldingForm() { document.getElementById('holding-form-overlay').classList.remove('open'); }
+
+function addHolding() {
+  const ticker = document.getElementById('new-h-ticker').value.trim().toUpperCase();
+  const name = document.getElementById('new-h-name').value.trim();
+  const weight = parseFloat(document.getElementById('new-h-weight').value) || 0;
+  const pnl = parseFloat(document.getElementById('new-h-pnl').value) || 0;
+  if (!ticker || !name) return alert('Please fill in ticker and company name.');
+  holdings.push({ ticker, name, weight, pnl });
+  STORE.set('holdings', holdings);
+  closeHoldingForm();
+  ['new-h-ticker','new-h-name','new-h-weight','new-h-pnl'].forEach(i => document.getElementById(i).value = '');
+  renderAll();
+}
+
+function openSettingsForm() {
+  document.getElementById('set-aum').value = settings.aum;
+  document.getElementById('set-return').value = settings.portfolioReturn;
+  document.getElementById('set-cash').value = settings.cash;
+  document.getElementById('set-milestones').value = settings.milestones.map(m => `${m.label}|${m.amount}|${m.reached}`).join('\n');
+  document.getElementById('settings-form-overlay').classList.add('open');
+}
+function closeSettingsForm() { document.getElementById('settings-form-overlay').classList.remove('open'); }
+
+function saveSettings() {
+  settings.aum = document.getElementById('set-aum').value.trim();
+  settings.portfolioReturn = document.getElementById('set-return').value.trim();
+  settings.cash = document.getElementById('set-cash').value.trim();
+  const lines = document.getElementById('set-milestones').value.trim().split('\n');
+  settings.milestones = lines.map(l => {
+    const parts = l.split('|');
+    return { label: parts[0]||'', amount: parseFloat(parts[1])||0, reached: parts[2]==='true' };
   });
+  STORE.set('settings', settings);
+  closeSettingsForm();
+  renderAll();
+}
 
-  document.getElementById("latestThesis").innerText = data.latestThesis;
+function filterPosts(type, el) {
+  currentFilter = type;
+  document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  renderPosts();
+}
 
+// Close overlays on background click
+document.getElementById('post-modal').addEventListener('click', e => { if (e.target === e.currentTarget) closeModal(); });
+document.getElementById('post-form-overlay').addEventListener('click', e => { if (e.target === e.currentTarget) closePostForm(); });
+document.getElementById('holding-form-overlay').addEventListener('click', e => { if (e.target === e.currentTarget) closeHoldingForm(); });
+document.getElementById('settings-form-overlay').addEventListener('click', e => { if (e.target === e.currentTarget) closeSettingsForm(); });
+
+// Init
+renderAll();
 </script>
-
 </body>
 </html>
