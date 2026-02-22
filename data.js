@@ -19,7 +19,7 @@
 //    P/L          = Market Value − Invested
 //    Percentage   = (Market Value / Invested) − 1
 //
-//  LAST UPDATED: 2026-02-21
+//  LAST UPDATED: 2026-02-22
 // ============================================================
 
 const PORTFOLIO_DATA = {
@@ -32,7 +32,7 @@ const PORTFOLIO_DATA = {
   // --- AUM MILESTONES ---
   // reached: true = full bar + checkmark, false = empty bar
   milestones: [
-    { label: "Rp 30jt",  reached: true  },
+    { label: "Rp 30jt",  reached: false  },
     { label: "Rp 50jt",  reached: false },
     { label: "Rp 100jt", reached: false },
     { label: "Rp 500jt", reached: false },
@@ -59,7 +59,7 @@ const PORTFOLIO_DATA = {
   // --- POSTS INDEX ---
   posts: [
     {
-      id: "holding-update-20260222",
+      id: "update-20261",
       type: "update",
       ticker: "WIFI", "CDIA", "BUAH", "BEEF", "UDNG",
       date: "2026-02-22",
