@@ -59,31 +59,13 @@ const PORTFOLIO_DATA = {
   // --- POSTS INDEX ---
   posts: [
     {
-      id: "bbca-thesis",
-      type: "thesis",
-      ticker: "BBCA",
-      date: "2025-11-10",
-      title: "BBCA: The Compounding Machine at the Heart of Indonesian Banking",
-      excerpt: "Why BCA's unmatched CASA franchise and deposit moat justify a long-term position at current valuations.",
-      file: "posts/bbca-thesis.html"
-    },
-    {
-      id: "inet-thesis",
-      type: "thesis",
-      ticker: "INET",
-      date: "2025-12-01",
-      title: "INET: Riding Indonesia's Digital Infrastructure Wave",
-      excerpt: "Indoritel's unique positioning as a tower and fiber play in an underpenetrated market.",
-      file: "posts/inet-thesis.html"
-    },
-    {
-      id: "udng-update",
+      id: "holding-update-20260222",
       type: "update",
-      ticker: "UDNG",
-      date: "2026-01-10",
-      title: "UDNG Q3 2025 Update — Reassessing the Thesis",
-      excerpt: "After a significant drawdown, we revisit whether the original thesis remains intact.",
-      file: "posts/udng-update.html"
+      ticker: "WIFI", "CDIA", "BUAH", "BEEF", "UDNG",
+      date: "2026-02-22",
+      title: "Recovery Plan: Exit on WIFI, CDIA, BUAH, BEEF, and Reducing Exposure on UDNG",
+      excerpt: "Announcement on recovery initiative plan by exitting from WIFI, CDIA, BUAH, and BEEF as well as reducing exposure on UDNG.",
+      file: "posts/holding-update-20260222.html"
     },
   ]
 };
