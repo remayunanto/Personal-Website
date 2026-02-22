@@ -66,6 +66,6 @@ const PORTFOLIO_DATA = {
       title: "Recovery Plan: Exit on WIFI, CDIA, BUAH, BEEF, and Reducing Exposure on UDNG",
       excerpt: "Announcement on recovery initiative plan by exitting from WIFI, CDIA, BUAH, and BEEF as well as reducing exposure on UDNG.",
       file: "posts/holding-update-20260222.html"
-    },
+    }
   ]
 };
